@@ -9,7 +9,7 @@
 ### export GIT_VERSION=3.x.y-dev
 ### ```
 
-GIT_VERSION ?= $(shell git describe --long --abbrev=7)
+GIT_VERSION ?= $(shell git describe --long --abbrev=7 2>/dev/null || git describe --long --abbrev=7 --always)
 ifndef GIT_VERSION
     $(error GIT_VERSION is not set)
 endif
@@ -43,7 +43,7 @@ O3 := -O3 -mtune=native
 ALL_DEBUG := $(O0) -ggdb -DDEBUG
 NO_DEBUG := $(O2) -ggdb
 DEBUG := $(ALL_DEBUG)
-CURVER ?= 3.0.5
+CURVER ?= 4.0.0
 #export DEBUG
 #export EXTRALINK
 export MAKE
@@ -374,7 +374,6 @@ clean:
 	cd lib && ${MAKE} clean
 	cd src && ${MAKE} clean
 	cd test/tap && ${MAKE} clean
-	cd test/deps && ${MAKE} clean
 	rm -f pkgroot || true
 
 .PHONY: cleandeps
